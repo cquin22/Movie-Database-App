@@ -13,7 +13,7 @@ export const ShowCard = {
     },
     template: `
         <div class="card-show" aria-label="Refresh">
-            <div class="poster" style="background-image: url({{$ctrl.card.Poster}})"></div>            
+            <div class="poster" style="background-image: url({{$ctrl.card.Poster != 'N/A' ? $ctrl.card.Poster : 'http://www.sirohiya.com.np/ennp/img/NOIMG.png'}})"></div>            
             <md-tooltip md-direction="top">
                 <div class="tooltip">
                     <p>Año: {{$ctrl.card.Year}}</p>

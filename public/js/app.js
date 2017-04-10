@@ -73,7 +73,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var HeaderComponent = exports.HeaderComponent = {
     controller: _SearchController2.default,
-    template: '\n        <div class="header wrap container-fluid">\n            <div class="row center-md middle-xs">\n                <div class="col-md-4">\n                    <h1 class="title-primary">Shows</h1>\n                </div>\n                <div class="col-md-8">\n                    <div class="row end-xs">\n                        <div class="col-xs-12">\n                            <div class="box-icon">\n                                <span ng-if="$ctrl.isActiveSearch">\n                                      <md-progress-circular ng-disabled="$ctrl.isActiveSearch" class="md-hue-2" md-diameter="40px"></md-progress-circular>\n                                </span>\n                                <span class="icon-tool"></span>\n                                <span class="icon-musica-searcher" ng-click="$ctrl.enableInput()"></span>\n                            </div> \n                            <div ng-if="$ctrl.showInputControler" class="search-component">\n                                <md-input-container flex-gt-sm>\n                                    <label>Find your favorite show</label>\n                                    <input ng-model="$ctrl.search">\n                                </md-input-container>\n                                <a ng-click="$ctrl.searchTvShow()" class="md-raised md-primary md-button md-ink-ripple search-btn" href="">Search</a>                            \n                            </div>                        \n                        </div>\n                    </div>\n                </div>                    \n            </div>         \n        </div> \n  '
+    template: '\n        <div class="header wrap container-fluid">\n            <div class="row center-md middle-xs">\n                <div class="col-md-4">\n                    <span ng-click="$ctrl.goToHome()" class="back" ng-if="$ctrl.showButtonBack()">Back</span>\n                    <h1 class="title-primary">Shows</h1>\n                </div>\n                <div class="col-md-8">\n                    <div class="row end-xs">\n                        <div class="col-xs-12">\n                            <div class="box-icon">\n                                <span ng-if="$ctrl.isActiveSearch">\n                                      <md-progress-circular ng-disabled="$ctrl.isActiveSearch" class="md-hue-2" md-diameter="40px"></md-progress-circular>\n                                </span>\n                                <span class="icon-tool"></span>\n                                <span class="icon-musica-searcher" ng-click="$ctrl.enableInput()"></span>\n                            </div> \n                            <div ng-if="$ctrl.showInputControler" class="search-component">\n                                <md-input-container flex-gt-sm>\n                                    <label>Find your favorite show</label>\n                                    <input ng-model="$ctrl.search" ng-change="$ctrl.onChange()">\n                                </md-input-container>\n                                <a ng-click="$ctrl.searchTvShow()" class="md-raised md-primary md-button md-ink-ripple search-btn" href="">Search</a>                            \n                            </div>                        \n                        </div>\n                    </div>\n                </div>                    \n            </div>         \n        </div> \n  '
 };
 
 },{"./SearchController":3}],3:[function(require,module,exports){
@@ -100,6 +100,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var TV_SHOW = new WeakMap();
 var ROOT = new WeakMap();
+var STATE = new WeakMap();
 
 var SearchController = function () {
 
@@ -107,7 +108,7 @@ var SearchController = function () {
      * @ngdoc method
      * @description Constructor Controller
      */
-    function SearchController($rootScope, $scope, tvShowService) {
+    function SearchController($rootScope, $state, tvShowService) {
         _classCallCheck(this, SearchController);
 
         this.showInputControler = false;
@@ -115,6 +116,7 @@ var SearchController = function () {
         this.isActiveSearch = false;
         TV_SHOW.set(this, tvShowService);
         ROOT.set(this, $rootScope);
+        STATE.set(this, $state);
     }
 
     _createClass(SearchController, [{
@@ -132,6 +134,26 @@ var SearchController = function () {
         key: 'enableInput',
         value: function enableInput() {
             this.showInputControler = !this.showInputControler;
+        }
+    }, {
+        key: 'goToHome',
+        value: function goToHome() {
+            STATE.get(this).go('home');
+        }
+    }, {
+        key: 'onChange',
+        value: function onChange() {
+            this.search = this.search.replace(/[^\w\s]/gi, "");
+        }
+    }, {
+        key: 'showButtonBack',
+        value: function showButtonBack() {
+            var showButton = false;
+            console.log(STATE.get(this).$current.name);
+            if (STATE.get(this).$current.name == 'show-tv') {
+                showButton = true;
+            }
+            return showButton;
         }
     }]);
 
@@ -159,7 +181,7 @@ var ShowCard = exports.ShowCard = {
     bindings: {
         card: '='
     },
-    template: '\n        <div class="card-show" aria-label="Refresh">\n            <div class="poster" style="background-image: url({{$ctrl.card.Poster}})"></div>            \n            <md-tooltip md-direction="top">\n                <div class="tooltip">\n                    <p>A\xF1o: {{$ctrl.card.Year}}</p>\n                </div>\n            </md-tooltip>           \n            <h2>{{$ctrl.card.Title}}</h2>\n        </div>\n  '
+    template: '\n        <div class="card-show" aria-label="Refresh">\n            <div class="poster" style="background-image: url({{$ctrl.card.Poster != \'N/A\' ? $ctrl.card.Poster : \'http://www.sirohiya.com.np/ennp/img/NOIMG.png\'}})"></div>            \n            <md-tooltip md-direction="top">\n                <div class="tooltip">\n                    <p>A\xF1o: {{$ctrl.card.Year}}</p>\n                </div>\n            </md-tooltip>           \n            <h2>{{$ctrl.card.Title}}</h2>\n        </div>\n  '
 };
 
 },{}],5:[function(require,module,exports){
@@ -231,6 +253,9 @@ var DetailTvShowController = function () {
         value: function getSeasonsBySerie(id, season) {
             var _this2 = this;
 
+            if (id != 0) {
+                this.indexSeason = id;
+            }
             TV_SHOW.get(this).getSeasonsBySerie(id, season).then(function (response) {
                 var seasons = _this2.compileSeasions(response.data.totalSeasons);
                 _this2.tvShow.episodes = response.data.Episodes;
@@ -445,7 +470,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 var DetailTvShow = exports.DetailTvShow = {
     controller: _DetailTvShowController2.default,
-    template: '\n        <div class="header wrap container-fluid">\n            <div class="row">\n                <div ng-if="$ctrl.showLoader"  class="col-md-12">\n                    <md-progress-circular ng-disabled="$ctrl.isActiveSearch" class="md-hue-2" md-diameter="40px"></md-progress-circular>                   \n                </div> \n                <div class="col-md-5">\n                    <img ng-src="{{$ctrl.tvShow.Poster}}" />\n                    <h1>{{$ctrl.tvShow.Title}}</h1>\n                </div>\n                <div class="col-md-7">\n                    <h2>Seasons</h2>\n                    <div class="numbers">\n                        <div class="number" ng-repeat="number in $ctrl.tvShow.seasons" ng-class="{\'active\': $index === $ctrl.indexSeason }">\n                            {{number + 1}}\n                        </div>\n                    </div>\n                    <div ng-repeat="episode in $ctrl.tvShow.episodes">\n                        {{episode.Episode}} - {{episode.Title}}\n                    </div>\n                </div>                              \n            </div>       \n        </div>\n  '
+    template: '\n        <div class="header wrap container-fluid">\n            <div class="row">\n                <div ng-if="$ctrl.showLoader"  class="col-md-12">\n                    <md-progress-circular ng-disabled="$ctrl.isActiveSearch" class="md-hue-2" md-diameter="40px"></md-progress-circular>                   \n                </div> \n                <div class="col-md-5">\n                    <img ng-if="$ctrl.tvShow.Poster != \'N/A\'" ng-src="{{$ctrl.tvShow.Poster}}" />\n                    <img ng-if="$ctrl.tvShow.Poster == \'N/A\' " src="https://static1.squarespace.com/static/574db59f59827e2eebfb93b4/t/57bdc1d09f74564c5c564290/1472053713193/no-photo.jpg" />\n                    <h1>{{$ctrl.tvShow.Title}}</h1>\n                </div>\n                <div class="col-md-7">\n                    <h2>Seasons</h2>\n                    <div class="numbers">\n                        <div class="number" ng-repeat="number in $ctrl.tvShow.seasons" ng-click="$ctrl.getSeasonsBySerie($ctrl.tvShow.imdbID, number + 1)" ng-class="{\'active\': $index === $ctrl.indexSeason }">\n                            {{number + 1}}\n                        </div>\n                    </div>\n                    <div ng-repeat="episode in $ctrl.tvShow.episodes">\n                        {{episode.Episode}} - {{episode.Title}}\n                    </div>\n                </div>                              \n            </div>       \n        </div>\n  '
 };
 
 },{"../controllers/DetailTvShowController":6}],12:[function(require,module,exports){

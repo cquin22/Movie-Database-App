@@ -40,6 +40,9 @@ class DetailTvShowController {
     }
 
     getSeasonsBySerie(id, season){
+        if(id != 0){
+            this.indexSeason = id;
+        }
         TV_SHOW.get(this).getSeasonsBySerie(id, season)
         .then(response => {
             var seasons = this.compileSeasions(response.data.totalSeasons);

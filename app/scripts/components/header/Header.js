@@ -14,6 +14,7 @@ export const HeaderComponent = {
         <div class="header wrap container-fluid">
             <div class="row center-md middle-xs">
                 <div class="col-md-4">
+                    <span ng-click="$ctrl.goToHome()" class="back" ng-if="$ctrl.showButtonBack()">Back</span>
                     <h1 class="title-primary">Shows</h1>
                 </div>
                 <div class="col-md-8">
@@ -29,7 +30,7 @@ export const HeaderComponent = {
                             <div ng-if="$ctrl.showInputControler" class="search-component">
                                 <md-input-container flex-gt-sm>
                                     <label>Find your favorite show</label>
-                                    <input ng-model="$ctrl.search">
+                                    <input ng-model="$ctrl.search" ng-change="$ctrl.onChange()">
                                 </md-input-container>
                                 <a ng-click="$ctrl.searchTvShow()" class="md-raised md-primary md-button md-ink-ripple search-btn" href="">Search</a>                            
                             </div>                        

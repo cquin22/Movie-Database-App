@@ -5,24 +5,22 @@ var     browserify = require('browserify');
 var     source = require('vinyl-source-stream');
 var     less = require('gulp-less');
 var     watch = require('gulp-watch');
-var spritesmith = require('gulp.spritesmith');
-var gulpif = require("gulp-if");
+var     spritesmith = require('gulp.spritesmith');
 var     cssmin = require('gulp-cssmin');
-var     gulpNgConfig = require('gulp-ng-config');
 var     uglify = require('gulp-uglifyjs');
 var     image = require('gulp-image');
 var     htmlmin = require('gulp-htmlmin');
-var ngAnnotate = require('gulp-ng-annotate');
+var     ngAnnotate = require('gulp-ng-annotate');
 
 var paths = {
-  scripts: './app/**/*.js',
+  scripts: './app/scripts/**/*.js',
   less: './app/**/*.less'
 };
 
 
 
 gulp.task('scripts', function(){
-    browserify('./app/app.js')
+    browserify('./app/scripts/app.js')
         .transform(babel)
         .bundle()
         .pipe(source('app.js'))
@@ -40,17 +38,6 @@ gulp.task('less', function(){
         .pipe(rename('app.css'))
         .pipe(gulp.dest('./public/css'));
 });
-
-gulp.task('sprite', function () {
-  var spriteData = gulp.src('./public/asets/*.*').pipe(spritesmith({
-        imgName: 'sprite.png',
-        cssName: 'sprite.css',
-        imgPath: '../img/sprites/sprite.png'
-  }));
-  return spriteData.pipe(gulpif('*.png', gulp.dest('./public/img/sprites')))
-                .pipe(gulpif('*.css', gulp.dest('./app/less/template-v1/sprites')));
-});
-
 
 /**
  * @gulpdoc task
