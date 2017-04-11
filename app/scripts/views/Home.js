@@ -1,12 +1,11 @@
 import controller from '../controllers/TvShowController';
 
 /**
- * @ngdoc components
+ * @ngdoc component
  * @name HomeComponent
  * @author Cristian Quintero <cristianqr22@gmail.com>
- * @description
+ * @description: App home page
  *
- * This is the home view 
  */
 export const HomeComponent = {
     controller,
@@ -14,7 +13,8 @@ export const HomeComponent = {
         <div class="header wrap container-fluid">
             <div class="row" ng-if="$ctrl.showsTvList.length == 0">
                 <div  class="col-md-12 alert-msg">
-                    <p>To find your favorite shows use the search button <span class="icon-musica-searcher"></span> in the upper right, then write your favorite show</p>
+                    <p ng-if="!$ctrl.errorResponse">To find your favorite shows use the search button <span class="icon-musica-searcher"></span> in the upper right, then write your favorite show</p>
+                    <p ng-if="$ctrl.errorResponse">{{$ctrl.errorResponse}}</p>
                 </div>              
             </div>
             <div class="row" ng-if="$ctrl.showsTvList.length > 0">

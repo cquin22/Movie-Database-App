@@ -112,11 +112,119 @@ h1, h2, h3{
   
 }
 
-.back {
-  height: 43px;
+.container-back{
   position: relative;
+}
+
+.back {
+  position: absolute;
   display: inline-block;
-  background: #ccc;
+  background: #fafafa;
+  top: -22px;
+  left: -50px;
+  line-height: 57px;
+  font-size: 30px;
+  text-transform: uppercase;
+  color: #ccc;
+  text-shadow: 1px 1px 1px #ddd;
+  width: 93px;
+  font-family: @titles;
+  box-shadow: 0px 2px 2px 1px #ccc;
+  outline:none;
+  &:hover{
+    cursor: pointer;
+  }
+  &:before {
+    content: "\A";
+    border-style: solid;
+    border-width: 29px 34px 29px 0;
+    border-color: transparent #fafafa transparent transparent;
+    left: -33px;
+    top: 0px;
+    position: absolute;
+  }
+}
+
+.container-poster {
+  background: white;
+  padding: 14px;
+  box-shadow: 1px 5px 8px 4px #ccc;
+  img{
+    width: 100%;
+  }
+  h1{
+    margin: 9px 0;
+    text-transform: uppercase;
+    color: #ccc;
+    font-size: 39px;
+  }
+}
+
+
+
+.detail-info {
+  padding-left: 25px;
+  h2{
+    text-transform: uppercase;
+    font-size: 47px;
+    margin: 0;
+    color: #999;
+    text-shadow: 1px 1px 1px #ddd;
+  }
+}
+
+
+.numbers{
+  margin-bottom: 15px;
+  .number{
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+    margin-right: 8px;
+    font-size: 29px;
+    text-align: center;
+    font-family: @titles;
+    font-weight: bold;
+    background: #f7f7f7;
+    color: #ccc;
+    box-shadow: 1px 3px 4px 0px #999;
+    text-shadow: 1px 1px 1px #fff;
+    outline:none;
+    margin-bottom: 8px;
+    &.active{
+      background: #e3e3e3;
+      color: white;
+      text-shadow: 1px 1px 1px #ccc;
+    }
+    &:hover{
+      cursor: pointer;
+    }
+  }
+}
+
+
+.box-episode {
+  position: relative;
+  padding: 14px 0;
+  border-bottom: 1px solid #ccc;
+  font-family: arial;
+  font-size: 23px;
+  font-weight: bold;
+  color: #999;
+  text-shadow: 1px 1px 1px #fff;
+  .episode{
+    margin-right: 32px;
+  }
+  .item {
+    width: 20px;
+    height: 20px;
+    display: block;
+    background: #ccc;
+    position: absolute;
+    top: 22px;
+    right: 0;
+    box-shadow: 1px 2px 2px 0px #999;
+  }
 }
 
 md-input-container .md-errors-spacer {

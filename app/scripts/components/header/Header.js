@@ -2,9 +2,7 @@ import controller from './SearchController';
 /**
  * @ngdoc Component
  * @name HeaderComponent
- *
  * @author Cristian Quintero <cristianqr22@gmail.com>
- *
  * @description:  common component for the header of the application
  */
 
@@ -13,7 +11,7 @@ export const HeaderComponent = {
     template: `
         <div class="header wrap container-fluid">
             <div class="row center-md middle-xs">
-                <div class="col-md-4">
+                <div class="col-md-4 container-back">
                     <span ng-click="$ctrl.goToHome()" class="back" ng-if="$ctrl.showButtonBack()">Back</span>
                     <h1 class="title-primary">Shows</h1>
                 </div>

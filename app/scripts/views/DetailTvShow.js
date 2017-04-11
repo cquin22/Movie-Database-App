@@ -1,11 +1,10 @@
 import controller from '../controllers/DetailTvShowController';
 /**
- * @ngdoc components
- * @name HomeComponent
+ * @ngdoc component
+ * @name DetailTvShow
  * @author Cristian Quintero <cristianqr22@gmail.com>
- * @description
+ * @description: Detail page of tv show
  *
- * This is the home view 
  */
 export const DetailTvShow = {
     controller,
@@ -16,19 +15,21 @@ export const DetailTvShow = {
                     <md-progress-circular ng-disabled="$ctrl.isActiveSearch" class="md-hue-2" md-diameter="40px"></md-progress-circular>                   
                 </div> 
                 <div class="col-md-5">
-                    <img ng-if="$ctrl.tvShow.Poster != 'N/A'" ng-src="{{$ctrl.tvShow.Poster}}" />
-                    <img ng-if="$ctrl.tvShow.Poster == 'N/A' " src="https://static1.squarespace.com/static/574db59f59827e2eebfb93b4/t/57bdc1d09f74564c5c564290/1472053713193/no-photo.jpg" />
-                    <h1>{{$ctrl.tvShow.Title}}</h1>
+                    <div class="container-poster">
+                         <img ng-if="$ctrl.tvShow.Poster != 'N/A'" ng-src="{{$ctrl.tvShow.Poster}}" />
+                        <img ng-if="$ctrl.tvShow.Poster == 'N/A' " src="https://static1.squarespace.com/static/574db59f59827e2eebfb93b4/t/57bdc1d09f74564c5c564290/1472053713193/no-photo.jpg" />
+                        <h1>{{$ctrl.tvShow.Title}}</h1>               
+                    </div>
                 </div>
-                <div class="col-md-7">
+                <div class="col-md-7 detail-info">
                     <h2>Seasons</h2>
                     <div class="numbers">
-                        <div class="number" ng-repeat="number in $ctrl.tvShow.seasons" ng-click="$ctrl.getSeasonsBySerie($ctrl.tvShow.imdbID, number + 1)" ng-class="{'active': $index === $ctrl.indexSeason }">
+                        <div id="Item_{{number}}" class="number" ng-repeat="number in $ctrl.tvShow.seasons" ng-click="$ctrl.getSeasonsBySerie($ctrl.tvShow.imdbID, number + 1)" ng-class="{'active': $index +1 === $ctrl.indexSeason }">
                             {{number + 1}}
                         </div>
                     </div>
-                    <div ng-repeat="episode in $ctrl.tvShow.episodes">
-                        {{episode.Episode}} - {{episode.Title}}
+                    <div ng-if="$ctrl.tvShow.episodes" class="box-episode animated fadeIn" ng-repeat="episode in $ctrl.tvShow.episodes">
+                        <span class="episode">{{episode.Episode}} </span> <span>{{episode.Title}}</span> <span class="item"></span>
                     </div>
                 </div>                              
             </div>       

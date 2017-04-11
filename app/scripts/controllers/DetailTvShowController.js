@@ -1,3 +1,4 @@
+import $ from "jquery";
 /**
  * @ngdoc controller
  * @name TvShowController
@@ -40,9 +41,9 @@ class DetailTvShowController {
     }
 
     getSeasonsBySerie(id, season){
-        if(id != 0){
-            this.indexSeason = id;
-        }
+        this.tvShow.episodes = null;
+        this.showLoader = true;
+        this.indexSeason = season;
         TV_SHOW.get(this).getSeasonsBySerie(id, season)
         .then(response => {
             var seasons = this.compileSeasions(response.data.totalSeasons);

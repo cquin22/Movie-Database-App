@@ -14,16 +14,30 @@ const  TV_SHOW = new WeakMap();
 class TvShowController {
     constructor($scope, $state, tvShowService) {
         var _self = this;
-        this.show = null;
+        _self.errorResponse = null;
+        _self.show = null;
         _self.showsTvList = [];        
         STATE.set(this, $state);
         TV_SHOW.set(this, tvShowService);
-        $scope.$on('handleBroadcast', function(event, message) {
-           _self.showsTvList = message.data.Search;
+        $scope.$on('handleBroadcast', function(event, response) {
+            if(response.data.Error){
+                _self.showsTvList = [];
+                _self.errorResponse = response.data.Error;
+            }else{
+                _self.showsTvList = response.data.Search;
+                if($state.$current.name != 'home'){
+                    $state.go('home');
+                }
+            }
         });
     };
 
-
+    /**
+     * @ngdoc method
+     * @name configService.setIdUser(config)
+     * @param: {Object} config --> The config user
+     * @description Set the config user
+    */
     goMoreInfo(id){
         STATE.get(this).go('show-tv', {id: id });       
     }
