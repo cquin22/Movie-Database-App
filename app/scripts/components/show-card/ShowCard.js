@@ -2,7 +2,7 @@
  * @ngdoc Component
  * @name ShowCard
  * @author Cristian Quintero <cristianqr22@gmail.com>
- * @description:  common component for the header of the application
+ * @description:  Component that builds each card
  */
 
 export const ShowCard = {
